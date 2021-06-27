@@ -1,32 +1,47 @@
 import os
 import csv
 
+
+# Define Variables
+total_vote_counter = 0
+candidate_names_dict= {}
+
 # path to csv
 csvpath = os.path.join("/", "Users", "tovadonahue", "Documents", "python-challenge", "PyPoll", "Resources", "election_data.csv")
 
 # Open csv
 with open(csvpath) as csvfile:
 
-    csv_reader = csv.reader(csvfile, delimiter=',')
-
+    py_poll = csv.reader(csvfile, delimiter=',')
+    
     # Read the header row first
     csv_header = next(csvfile)
-             
+
     # Read through each row of data after the header
-    for row in csv_reader:
-
+    for row in py_poll:
         
-# Specify the file to write to
-#output_path = os.path.join("..", "output", "new.csv")
+        total_vote_counter += 1
 
-# Open the file using "write" mode. Specify the variable to hold the contents
-#with open(output_path, 'w', newline='') as csvfile:
+        # Read candidate names from csv
+        candidate_name_original_key = (row[2])
 
-    # Initialize csv.writer
-    #csvwriter = csv.writer(csvfile, delimiter=',')
+        # Add names to dictionary while counting how many times
+        if candidate_name_original_key in candidate_names_dict:
+            candidate_names_dict[candidate_name_original_key]+=1
+           
+        else:
+            candidate_names_dict[candidate_name_original_key] = 1
 
-    # Write the first row (column headers)
-    #csvwriter.writerow(['First Name', 'Last Name', 'SSN'])
+#calculate percentage
+    for candidate_name_original_key, value in candidate_names_dict.items() :
+        win_percent = (value / total_vote_counter) * 100
+        #print (win_percent)
+        #print (candidate_name_original_key, win_percent, value)
 
-    # Write the second row
-    #csvwriter.writerow(['Caleb', 'Frost', '505-80-2901'])
+#print
+print("Election Results")
+print("----------------------------")
+print(f"Total Votes:  {total_vote_counter}")
+print("----------------------------")
+print(candidate_name_original_key, win_percent, value))
+
